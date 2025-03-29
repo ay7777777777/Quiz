@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamisches Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        .quiz-container { max-width: 600px; margin: auto; }
+        .question { font-size: 20px; margin-bottom: 10px; }
+        .option { display: block; margin: 5px 0; padding: 10px; cursor: pointer; background: #f0f0f0; border: none; }
+        .option:hover { background: #ddd; }
+        #result { font-size: 24px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>Islamisches Wissen: Kinder & Familie</h2>
+        <div id="question-container"></div>
+        <button onclick="nextQuestion()">Nächste Frage</button>
+        <p id="result"></p>
+    </div>
+    
+    <script>
+        const quiz = [
+            { question: "Was ist die erste Sunnah-Handlung nach der Geburt eines Babys?", options: ["Das Adhan ins rechte Ohr sprechen", "Dem Baby einen Tropfen Honig geben", "Das Baby waschen", "Es sofort in ein weißes Tuch wickeln"], answer: 0 },
+            { question: "Welche Propheten im Qur'an hatten besondere Geburten?", options: ["Isa (Jesus) & Yahya (Johannes)", "Musa (Moses) & Harun (Aaron)", "Nuh (Noah) & Yusuf (Josef)", "Adam & Idris"], answer: 0 },
+            { question: "Welcher Name ist KEIN Name eines Propheten?", options: ["Malik", "Yunus", "Ibrahim", "Shu'aib"], answer: 0 },
+            { question: "Welcher Qur'an-Vers betont die Barmherzigkeit gegenüber Eltern?", options: ["Und senke für sie in Barmherzigkeit demütig den Flügel der Unterwerfung... (Surah Al-Isra 17:24)", "Und wahrlich, mit der Erschwernis kommt die Erleichterung... (Surah Ash-Sharh 94:6)", "Allah liebt diejenigen, die sich reinigen... (Surah At-Tawbah 9:108)", "Wahrlich, der Mensch ist in einem Zustand des Verlustes... (Surah Al-Asr 103:2)"], answer: 0 }
+        ];
+        
+        let currentQuestion = 0;
+        function loadQuestion() {
+            const container = document.getElementById("question-container");
+            container.innerHTML = "";
+            
+            const q = document.createElement("div");
+            q.classList.add("question");
+            q.innerText = quiz[currentQuestion].question;
+            container.appendChild(q);
+            
+            quiz[currentQuestion].options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.classList.add("option");
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index);
+                container.appendChild(btn);
+            });
+        }
+        
+        function checkAnswer(selected) {
+            const result = document.getElementById("result");
+            if (selected === quiz[currentQuestion].answer) {
+                result.innerText = "Richtig!";
+                result.style.color = "green";
+            } else {
+                result.innerText = "Falsch!";
+                result.style.color = "red";
+            }
+        }
+        
+        function nextQuestion() {
+            document.getElementById("result").innerText = "";
+            if (currentQuestion < quiz.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                document.getElementById("question-container").innerHTML = "Quiz beendet!";
+            }
+        }
+        
+        loadQuestion();
+    </script>
